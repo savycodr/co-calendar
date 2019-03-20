@@ -23,6 +23,8 @@ This is a calendar that is meant to be shared with friends and family. It stores
 
 * A call to Weather Open Map API allows us to dynamically display the weather in the calendar.
 
+* Uses Moment javascript libraries to format dates.
+
 
 ## Future Enhancements
 

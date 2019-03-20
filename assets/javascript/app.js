@@ -1,14 +1,24 @@
 $(document).ready(function() {
 
-    // Initialize Firebase
-    var config = {
+  // Initialize Firebase - Heather
+  var config = {
+    apiKey: "AIzaSyDM0zJwD4uacrU_J6d_GqJkDZVP18i1hj0",
+    authDomain: "calendar-2f8b5.firebaseapp.com",
+    databaseURL: "https://calendar-2f8b5.firebaseio.com",
+    projectId: "calendar-2f8b5",
+    storageBucket: "calendar-2f8b5.appspot.com",
+    messagingSenderId: "351672211371"
+  };
+
+    // Initialize Firebase - Chi
+    {/* var config = {
     apiKey: "AIzaSyBFsFBm0U8d1mNzxs64khxCxGDWBbgQqPU",
     authDomain: "group-project-1-6f6fd.firebaseapp.com",
     databaseURL: "https://group-project-1-6f6fd.firebaseio.com",
     projectId: "group-project-1-6f6fd",
     storageBucket: "group-project-1-6f6fd.appspot.com",
     messagingSenderId: "110990570117"
-    };
+    }; */}
     firebase.initializeApp(config);
     
     var database = firebase.database();
