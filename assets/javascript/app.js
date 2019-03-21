@@ -354,7 +354,12 @@ function get_data_from_json() {
         var inputDetails = $("#textarea1").val().trim();
         var inputDate = $("#inputDate").val().trim();
     
-    
+        console.log("HEATHER YOU BROKE IT " + inputDate);
+        var apiFormat = "YYYY-MM-DD";
+        var inputDate = moment(inputDate, "ll").format(apiFormat);
+        console.log("the search start is " + inputDate);
+
+
         //if blank, don't push. else push to firebase
         if (inputEvent === "") {
             return false;
@@ -381,7 +386,7 @@ function get_data_from_json() {
     //display the data pushed to firebase to calendar
     // HLS this also happens on init. But we need it to happen when we change views in calendar
     database.ref().on("child_added", function(childSnapshot) {
-    
+
         var userData = childSnapshot.val();
         /**
         //grab details
@@ -390,6 +395,7 @@ function get_data_from_json() {
         var dateInputText = childSnapshot.val().date;
         **/
 
+        //HLS this needs to happen elsewhere because it needs to happen when we change views of the calendar
         if (userData.userId === userId) {
             console.log("Heather we are reading the database");
             //create new span variable
@@ -411,6 +417,8 @@ function get_data_from_json() {
       // this javascript will read city, startdate, enddate from the user input
       // it will make a call to the Ticketmaster API and display a group of events
       // each event will have a event name, event date, event time, event venue, link to ticket information, and an event image
+
+      
 
       var apiTwoKey = "Rr353U4OsbhsMLwSJCn4VqwWk1kAimY4";
       // This .on("click") function will trigger the AJAX Call to the TicketMaster API
@@ -437,9 +445,14 @@ function get_data_from_json() {
             return false;
           }
         
-
         // Here we grab the start date
         var userSearchStart = $("#event-start").val().trim();
+        // Validate the start date
+        if (( userSearchStart === "") || ( userSearchStart === undefined)){
+          $("#errorMsg").text("Please enter a start date.")
+          return false;
+        } 
+
         // need to change to the format for the api
         var apiFormat = "YYYY-MM-DD";
         var searchStart = moment(userSearchStart, "ll").format(apiFormat);
@@ -447,6 +460,12 @@ function get_data_from_json() {
 
         // Here we grab the end date
         var userSearchEnd = $("#event-end").val().trim();
+        // Validate the end date
+        if (( userSearchEnd === "") || ( userSearchEnd === undefined)){
+          $("#errorMsg").text("Please enter a end date.")
+          return false;
+        } 
+        
         // need to change to the format for the api
         var searchEnd =  moment(userSearchEnd, "ll").format(apiFormat);
         console.log("the search end is " + searchEnd);
@@ -598,17 +617,27 @@ function get_data_from_json() {
     
       }); //end of on click call
       
+      //  Set datepicker to start at a date === today
+      var formatForToday = "ll";
+      var thisDay = moment().format(formatForToday);
+      var beginDateInput = $("#event-start");
+      beginDateInput.attr("value", thisDay);
 
-      $('.datepicker').datepicker();
-        // val dpicker = $('.datepicker');
-        // dpicker.datepicker();
-        // this.instanceDatepicker = new M.Datepicker(this.elDatepicker.nativeElement, {
-        //     defaultDate: new Date(),
-        //     setDefaultDate: true,
-        //     selectMonths: true,
-        //     selectYears: 200, 
-        //     format: "dd/mm/yyyy"
-        // });
+      // Set event datepicker == today
+      var eventDateInput = $("#inputDate");
+      eventDateInput.attr("value", thisDay);
+
+      // Set datepicker end date be 2 weeks out from today
+      var b = moment().add(2, 'week'); 
+      b = b.format(formatForToday);
+      var endDateInput = $("#event-end");
+      endDateInput.attr("value", b);
+
+      // lets make sure you can't select a date before today
+      $('.datepicker').datepicker({
+          autoClose : true,
+          minDate : new Date()
+        });
 
         $(document).on("click.", "#addToCal", function(event){
 

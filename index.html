@@ -86,34 +86,40 @@
     <div class="mainWidth inputColumn">
         <div class="row" style="margin-bottom: 0px;">
             <div class="col s12">
-        <h5><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Add Events</h5>
-        </div></div>
-            <form class="input-bar">
+                <h5><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Add Events</h5>
+            </div>
+        </div>
+        <form class="input-bar">
 
-                <div class="row">
+            <div class="row">
 
-                    <div class="input-field col s3">
-                        <label for="input-events">Event</label>
-                        <input id="input-events" type="text" class="validate">
-                    </div>
+                <div class="input-field col s3">
+                    <label for="input-events">Event</label>
+                    <input id="input-events" type="text" class="validate">
+                </div>
               
-                    <div class="input-field col s3">
-                        <input type="date" id="inputDate" value="2019-03-01" min="2019-01-01" max="2019-12-31">
-                    </div>
+                <div class="input-field col s3">
+                    <input type="text" class="datepicker" id="inputDate" >   
+                </div>
            
-                    <div class="input-field col s4">
-                        <textarea id="textarea1" class="materialize-textarea"></textarea>
-                        <label for="textarea1">Details</label>
-                    </div>
-
-                    <div class="input-field col s2">
-                        <button class="btn waves-effect waves-light blue darken-2" type="submit" name="action" id="submitbtn">Submit
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </div>
-                    
+                <div class="input-field col s4">
+                    <textarea id="textarea1" class="materialize-textarea"></textarea>
+                    <label for="textarea1">Details</label>
                 </div>
 
+                <div class="input-field col s2">
+                    <button class="btn waves-effect waves-light blue darken-2" type="submit" name="action" id="submitbtn">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+
+                    
+            </div>
+            <!-- <div class="row">
+                <div class="col 12">
+                    <p id="eventErrorMsg" style="color: red; margin-top: 8px"> HI</p>
+                 </div>
+            </div> -->
             </form>
     </div>
     <!-- end of input -->
@@ -179,17 +185,17 @@
                 <div class="col s4 ">
                     <!-- value="Trenton" -->
                     <label for="event-input">Search for this city</label>
-                    <input type="text" id="event-input"  class="validate" required>
+                    <input type="text" id="event-input"  class="validate" required value="Philadelphia">
                 </div> <!-- end of column-->
 
                 <div class="col s4 ">
                     <label for="event-start">Search start date </label>
-                    <input type="text" class="datepicker" id="event-start" value="Mar 16, 2019">   
+                    <input type="text" class="datepicker" id="event-start" > 
                 </div> <!-- end of column-->
 
                 <div class="col s4 ">
                     <label for="event-end">Search end date </label>
-                    <input type="text" class="datepicker" id="event-end" value="Apr 30, 2019">   
+                    <input type="text" class="datepicker" id="event-end" >   
                 </div> <!-- end of column-->
               </div> <!-- end of row -->
 
@@ -210,17 +216,6 @@
         
                 <!-- We create a carousel of images here-->
                 <div class="carousel" id="image-view">
-                    <!-- <a class="carousel-item" href="#one!">
-                    <div class="card">
-                        <div class="card-image">
-                        <img src="assets/images/the-road-815297_640.jpg">
-                        <span class="card-title">Monster Truck</span>
-                        </div>
-                        <div class="card-content">
-                        <p> Lincoln Financial Field </p> <p>10-31-2019 7:00</p>
-                        </div>
-                    </div>
-                    </a> -->
                 </div>            
             </div> <!-- end of eventview container-->
       </div><!-- end of column-->
