@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  // Initialize Firebase - Heather
+  // Initialize Firebase 
   var config = {
     apiKey: "AIzaSyDM0zJwD4uacrU_J6d_GqJkDZVP18i1hj0",
     authDomain: "calendar-2f8b5.firebaseapp.com",
@@ -10,22 +10,9 @@ $(document).ready(function() {
     messagingSenderId: "351672211371"
   };
 
-    // Initialize Firebase - Chi
-    {/* var config = {
-    apiKey: "AIzaSyBFsFBm0U8d1mNzxs64khxCxGDWBbgQqPU",
-    authDomain: "group-project-1-6f6fd.firebaseapp.com",
-    databaseURL: "https://group-project-1-6f6fd.firebaseio.com",
-    projectId: "group-project-1-6f6fd",
-    storageBucket: "group-project-1-6f6fd.appspot.com",
-    messagingSenderId: "110990570117"
-    }; */}
-    firebase.initializeApp(config);
+  firebase.initializeApp(config);
+  var database = firebase.database();
     
-    var database = firebase.database();
-    
-
-
-
 
 /************* modal alerts *********************/
 // Get the modal
@@ -159,7 +146,7 @@ let currentMonth = today.getMonth();
 let currentYear = today.getFullYear();
 let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 //Will put the calender title month year - i.e Mar 2019
-let title = document.getElementById("title");
+let title = $("#title");
 
 var add_weather_data = false;
 /*
@@ -180,8 +167,9 @@ function resetVariable(){
  * */
 function prepareCalendarData(data){
     weather_json = data;
-    get_data_from_json();
-    showCalendar(currentMonth, currentYear);
+    // HLS
+    // get_data_from_json();
+    // showCalendar(currentMonth, currentYear);
    
     resetVariable();
     get_data_from_json();
@@ -225,93 +213,106 @@ function getToday(year, month, day){
 function showCalendar(month, year) {
     let firstDay = (new Date(year, month)).getDay();
     let daysInMonth = 32 - new Date(year, month, 32).getDate();
-    let tbl = document.getElementById("calendar-body"); // body of the calendar
+
+    let tbl = $("#calendar-body"); // body of the calendar
     // clearing all previous cells
-    tbl.innerHTML = "";
+    tbl.text("");
     // filing data about month and Year in the page via DOM.
-    title.innerHTML = months[month] +"<br><span style='font-size:18px'>"+year+"</span>";
+    title.html(months[month] + "<br>" + year);
+
     // creating all cells
     let date = 1;
+    //weeks created
     for (let i = 0; i < 6; i++) {
         // creates a table row
-        let row = document.createElement("tr");
+        let row = $("<tr>");
+
+        //each day created in the week
         //creating individual cells, filing them up with data.
         for (let j = 0; j < 7; j++) {
             let dateToday = getToday(year, month, date);
+
+            //for the days before day 1 of the month
             if (i === 0 && j < firstDay) {
                 //if this day is not for this month
-                let cell = document.createElement("td");
-                let cellText = document.createTextNode("");
-                cell.appendChild(cellText);
-                row.appendChild(cell);
+
+                let cell = $("<td>");
+                cell.append("");
+                row.append(cell);
             }
             else if (date > daysInMonth) {
                 //if the day is greater than this month
                 break;
             }
+            //days starting with day 1 of month
             else {
                 //if this day is within this month
-                let img = document.createElement("IMG");
-                img.setAttribute("src","assets/images/"+weather_json.list[my_counter].weather[0].icon+".png");
-                img.setAttribute("width","50");
-                img.setAttribute("height","50");
-                let cell = document.createElement("td");
-                let EventT = document.createElement("p");
-                let cellText;
+                let img = $("<img>");
+                img.attr("src","assets/images/"+weather_json.list[my_counter].weather[0].icon+".png");
+                img.attr("width","40");
+                img.attr("height","40");
+                let cell = $("<td>");
+                let cellText = $("<p>");
+                //HLS
+                // let EventT = $("<p>");
 
                 // add ID tag to each day of format 2019-03-22
                 // We have to add 1 to the month because selectMonth is [0-11]
                var attrID = year + "-" + (parseInt(month) + 1) + "-" + date;     //2019-03-22
                var newDate = moment(attrID, "YYYY-MM-DD").format("YYYY-MM-DD");
-
-    
-               cell.setAttribute("id", newDate);
+               cell.attr("id", newDate);
            
-
-
+                // this runs if there is an event from the database
                 if(events[dateToday]){
-                    EventT.innerHTML = "<br><span class='glyphicon glyphicon-calendar'></span>"+events[dateToday];
-                    cell.classList.add("bg-event");
+                    //HLS
+                    // EventT.text(events[dateToday]);
+                    // cell.addClass("bg-event");
                 }
+
+                // This statement only runs when the looped date matches today's date
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth())
                 {
                     //if this day is today
-                    cell.appendChild(img);
-                    cellText = document.createTextNode(date+" "+weather_json.list[my_counter].weather[0].main);
+                    cell.append(img);
+                    cellText.text(date+" "+weather_json.list[my_counter].weather[0].main);
                     my_counter++;
                     add_weather_data=true;
-                    cell.classList.add("bg-info");
+                    cell.addClass("bg-info");
                 }
+                // The day we're looping on isn't today
                 else
                 {
+                    // add_weather_data will only be true after we've looped past today's day on the calendar
                     if(add_weather_data)
                     {
                         if(weather_conditions[my_counter])
                         {
-                            img.setAttribute("src","assets/images/"+weather_icons[my_counter]+".png");
-                            img.setAttribute("width","20");
-                            img.setAttribute("height","20");
-                            cell.appendChild(img);
-                            cellText = document.createTextNode(date+" "+weather_conditions[my_counter]);
+                          img.attr("src","assets/images/"+weather_icons[my_counter]+".png");
+                          img.attr("width","40");
+                          img.attr("height","40");
+                          cell.append(img);
+                          cellText.text(date+" "+weather_conditions[my_counter]);
                         }
                         else
                         {
-                            cellText = document.createTextNode(date);
+                          cellText.text(date);
+                          console.log("Heather the cell text1 " + date);
                         }
                         my_counter++;
                     }
                     else
                     {
-                        cellText = document.createTextNode(date);
+                      cellText.text(date);
+                      console.log("Heather the cell text2 " + date);
                     }
                 }
-                cell.appendChild(cellText);
-                cell.appendChild(EventT);
-                row.appendChild(cell);
+                console.log("Heather we are appending the cellText");
+                cell.append(cellText);
+                row.append(cell);
                 date++;
             }
         }
-        tbl.appendChild(row); // appending each row into calendar body.
+        tbl.append(row); // appending each row into calendar body.
     }
 }
 /*
@@ -378,6 +379,7 @@ function get_data_from_json() {
     
     
     //display the data pushed to firebase to calendar
+    // HLS this also happens on init. But we need it to happen when we change views in calendar
     database.ref().on("child_added", function(childSnapshot) {
     
         var userData = childSnapshot.val();
@@ -389,6 +391,7 @@ function get_data_from_json() {
         **/
 
         if (userData.userId === userId) {
+            console.log("Heather we are reading the database");
             //create new span variable
             var newList = $("<li>");
         
@@ -595,8 +598,6 @@ function get_data_from_json() {
     
       }); //end of on click call
       
-      // HLS want to display the caurousel that I am testing with, this is temporary
-      //   $('.carousel').carousel();
 
       $('.datepicker').datepicker();
         // val dpicker = $('.datepicker');
